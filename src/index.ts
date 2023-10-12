@@ -86,6 +86,54 @@ export class Finnotech {
             return e.response.data
         }
     }
+
+
+    public async matchAccountNumberWithNationalCode(cardNumber: string, nationalCode: string) {
+        try {
+            const {result: accountNumber} = await this.convertCardNumberToAccountNumber(cardNumber)
+            const {result} = await this.getClientCredentialToken('facility:deposit-owner-verification:get')
+            const trackId = uuidv4()
+            // Remember that you should complete bank code
+            const {data} = await axios.get(`${this.baseUrl}/facility/v2/clients/${this.clientId}/depositOwnerVerification?trackId=${trackId}&deposit=${accountNumber.deposit}&bank={bankCode}&nationalCode=${nationalCode}`, {
+                headers: {
+                    Authorization: `Bearer ${result?.value}`,
+                },
+            })
+            return data
+        } catch (e: any) {
+            return e.response.data
+        }
+    }
+
+    public async getFinnotechBanksCode() {
+        try {
+            const {result} = await this.getClientCredentialToken('facility:cc-bank-info:get')
+            const trackId = uuidv4()
+            const {data} = await axios.get(`${this.baseUrl}/facility/v2/clients/${this.clientId}/banksInfo?trackId=${trackId}`, {
+                headers: {
+                    Authorization: `Bearer ${result?.value}`,
+                },
+            })
+            return data.result.result
+        } catch (e: any) {
+            return e.response.data
+        }
+    }
+
+    public async convertCardNumberToAccountNumber(card: string) {
+        try {
+            const {result} = await this.getClientCredentialToken('facility:card-to-deposit:get')
+            const trackId = uuidv4()
+            const {data} = await axios.get(`${this.baseUrl}/facility/v2/clients/${this.clientId}/cardToDeposit?trackId=${trackId}&card=${card}`, {
+                headers: {
+                    Authorization: `Bearer ${result?.value}`,
+                },
+            })
+            return data
+        } catch (e: any) {
+            return e.response.data
+        }
+    }
 }
 
 
