@@ -6,7 +6,7 @@ import {
 } from "./Types/FinnotechTypes";
 
 
-export class Finnotech {
+export default class Finnotech {
     public clientId
     public baseUrl
     public clientPass
