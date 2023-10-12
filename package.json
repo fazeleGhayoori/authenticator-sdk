@@ -1,6 +1,6 @@
 {
   "name": "authenticator-sdk",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
@@ -23,5 +23,9 @@
     "tsup": "^7.2.0",
     "typescript": "^5.2.2",
     "uuid": "^9.0.1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/fazeleGhayoori/authenticator-sdk.git"
   }
 }
